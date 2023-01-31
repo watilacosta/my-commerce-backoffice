@@ -9,6 +9,7 @@ const formSubmit = () => {
   console.log(password.value);
   email.value = "";
   password.value = "";
+  localStorage.setItem("token", "abc123");
 };
 </script>
 
