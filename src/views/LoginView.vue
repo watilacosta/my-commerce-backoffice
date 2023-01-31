@@ -1,15 +1,25 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import api from "@/utils/api";
+
 
 const email = ref("");
 const password = ref("");
 
-const formSubmit = () => {
-  console.log(email.value);
-  console.log(password.value);
-  email.value = "";
-  password.value = "";
-  localStorage.setItem("token", "abc123");
+const payload = {
+  email: email,
+  password: password,
+};
+
+const formSubmit = async () => {
+  try {
+    await api.post("/auth/login", payload).then((response) => {
+      console.log(response.data);
+      localStorage.setItem("token", response.data.token);
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 </script>
 
@@ -26,7 +36,7 @@ const formSubmit = () => {
                   <input
                     v-model="email"
                     type="email"
-                    autocomplete="autocomplete"
+                    autocomplete="ok"
                     placeholder="example.com"
                     class="input"
                     required
