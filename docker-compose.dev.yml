@@ -1,0 +1,17 @@
+services:
+  backoffice:
+    container_name: backoffice
+    build: .
+    command: bash -c "npm run dev"
+    image: node:latest
+    working_dir: /var/www/html/app
+    expose:
+      - "8001:8001"
+    volumes:
+      - .:/var/www/html/app
+    tty: true
+
+networks:
+  my-commerce:
+    name: my-commerce
+    external: true
