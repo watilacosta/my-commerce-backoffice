@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from "vue-router";
+import { RouterView } from "vue-router";
 import router from "@/router";
+import { useAuthStore } from "@/stores/auth";
+import { storeToRefs } from "pinia";
+
+const authStore = useAuthStore();
+const { userIsAuthenticated } = storeToRefs(authStore);
 
 router.beforeEach(async (to) => {
-  const isAuthenticated: boolean = false;
-
-  if (!isAuthenticated && to.name !== "Login") {
+  if (!userIsAuthenticated.value && to.name !== "Login") {
     return { name: "Login" };
   }
 });

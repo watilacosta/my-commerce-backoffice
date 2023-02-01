@@ -1,21 +1,22 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import api from "@/utils/api";
-
+import { useAuthStore } from "@/stores/auth";
+import { storeToRefs } from "pinia";
+import router from "@/router";
 
 const email = ref("");
 const password = ref("");
+const authStore = useAuthStore();
+const { userIsAuthenticated, authToken } = storeToRefs(authStore);
 
-const payload = {
-  email: email,
-  password: password,
-};
-
-const formSubmit = async () => {
+const login = async () => {
+  const payload = { email: email.value, password: password.value };
   try {
     await api.post("/auth/login", payload).then((response) => {
-      console.log(response.data);
-      localStorage.setItem("token", response.data.token);
+      authToken.value = response.data.token;
+      userIsAuthenticated.value = true;
+      router.push("/");
     });
   } catch (error) {
     console.log(error);
@@ -29,14 +30,14 @@ const formSubmit = async () => {
       <div class="container">
         <div class="columns is-centered">
           <div class="column is-5-tablet is-4-desktop is-4-widescreen">
-            <form @submit.prevent="formSubmit" class="box">
+            <form @submit.prevent="login" class="box">
               <div class="field">
                 <label for="email" class="label">Email</label>
                 <div class="control has-icons-left">
                   <input
                     v-model="email"
                     type="email"
-                    autocomplete="ok"
+                    autocomplete="autocomplete"
                     placeholder="example.com"
                     class="input"
                     required
