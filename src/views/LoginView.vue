@@ -10,14 +10,28 @@ const password = ref("");
 const authStore = useAuthStore();
 const { userIsAuthenticated, authToken } = storeToRefs(authStore);
 
-const login = async () => {
-  const payload = { email: email.value, password: password.value };
+interface LoginPayload {
+  email: string;
+  password: string;
+}
+
+const login = async (payload: LoginPayload) => {
+  await api.post("/auth/login", payload).then((response) => {
+    if (!response.data.token) return;
+    authToken.value = response.data.token;
+    userIsAuthenticated.value = true;
+    router.push("/");
+  });
+};
+
+const handleForm = async () => {
+  const payload: LoginPayload = {
+    email: email.value,
+    password: password.value,
+  };
+
   try {
-    await api.post("/auth/login", payload).then((response) => {
-      authToken.value = response.data.token;
-      userIsAuthenticated.value = true;
-      router.push("/");
-    });
+    await login(payload);
   } catch (error) {
     console.log(error);
   }
@@ -30,7 +44,7 @@ const login = async () => {
       <div class="container">
         <div class="columns is-centered">
           <div class="column is-5-tablet is-4-desktop is-4-widescreen">
-            <form @submit.prevent="login" class="box">
+            <form @submit.prevent="handleForm" class="box">
               <div class="field">
                 <label for="email" class="label">Email</label>
                 <div class="control has-icons-left">
