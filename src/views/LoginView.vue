@@ -1,28 +1,17 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onBeforeMount, ref } from "vue";
 import api from "@/utils/api";
 import { useAuthStore } from "@/stores/auth";
-import { storeToRefs } from "pinia";
 import router from "@/router";
 
+const authStore = useAuthStore();
 const email = ref("");
 const password = ref("");
-const authStore = useAuthStore();
-const { userIsAuthenticated, authToken } = storeToRefs(authStore);
 
 interface LoginPayload {
   email: string;
   password: string;
 }
-
-const login = async (payload: LoginPayload) => {
-  await api.post("/auth/login", payload).then((response) => {
-    if (!response.data.token) return;
-    authToken.value = response.data.token;
-    userIsAuthenticated.value = true;
-    router.push("/");
-  });
-};
 
 const handleForm = async () => {
   const payload: LoginPayload = {
@@ -30,8 +19,24 @@ const handleForm = async () => {
     password: password.value,
   };
 
+  await login(payload);
+};
+
+const login = async (payload: LoginPayload) => {
   try {
-    await login(payload);
+    await api.post("/auth/login", payload).then((response) => {
+      const token = response.data.token;
+
+      if (token) {
+        sessionStorage.setItem("token", token);
+        sessionStorage.setItem("authenticated", "yes");
+        authStore.setAuthToken(token);
+        authStore.authenticate();
+        router.push("/");
+      } else {
+        console.log("Credenciais incorretas!");
+      }
+    });
   } catch (error) {
     console.log(error);
   }
@@ -44,6 +49,7 @@ const handleForm = async () => {
       <div class="container">
         <div class="columns is-centered">
           <div class="column is-5-tablet is-4-desktop is-4-widescreen">
+            <p class="has-text-danger">monty.abbott@lindgren.info</p>
             <form @submit.prevent="handleForm" class="box">
               <div class="field">
                 <label for="email" class="label">Email</label>
@@ -51,7 +57,7 @@ const handleForm = async () => {
                   <input
                     v-model="email"
                     type="email"
-                    autocomplete="autocomplete"
+                    autocomplete="on"
                     placeholder="example.com"
                     class="input"
                     required

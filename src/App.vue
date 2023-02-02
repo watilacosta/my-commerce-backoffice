@@ -1,21 +1,22 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
-import router from "@/router";
+import { onBeforeMount } from "vue";
 import { useAuthStore } from "@/stores/auth";
-import { storeToRefs } from "pinia";
 
 const authStore = useAuthStore();
-const { userIsAuthenticated } = storeToRefs(authStore);
 
-router.beforeEach(async (to) => {
-  if (!userIsAuthenticated.value && to.name !== "Login") {
-    return { name: "Login" };
+onBeforeMount(() => {
+  const token = sessionStorage.getItem("token");
+  const authenticated = sessionStorage.getItem("authenticated");
+  if (token && authenticated) {
+    authStore.setAuthToken(token);
+    authStore.authenticate();
   }
 });
 </script>
 
 <template>
-  <RouterView />
+  <div class="container">
+    <RouterView />
+  </div>
 </template>
-
-<style scoped></style>
