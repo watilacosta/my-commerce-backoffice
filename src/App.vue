@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
-import { onBeforeMount } from "vue";
 import { useAuthStore } from "@/stores/auth";
+import { onBeforeMount } from "vue";
 
 const authStore = useAuthStore();
 
@@ -16,7 +16,5 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <div class="container">
-    <RouterView />
-  </div>
+  <RouterView />
 </template>

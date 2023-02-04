@@ -49,7 +49,6 @@ const login = async (payload: LoginPayload) => {
       <div class="container">
         <div class="columns is-centered">
           <div class="column is-5-tablet is-4-desktop is-4-widescreen">
-            <p class="has-text-danger">monty.abbott@lindgren.info</p>
             <form @submit.prevent="handleForm" class="box">
               <div class="field">
                 <label for="email" class="label">Email</label>
