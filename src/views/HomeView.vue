@@ -1,11 +1,7 @@
-<script setup lang="ts">
-</script>
-
 <template>
   <header>
     <div class="wrapper">
       <h1 class="title">Dashboard Administrativo</h1>
-      <button class="button is-primary" @click="showWelcome">Show Welcome</button>
       <nav>
         <RouterLink to="/">Início</RouterLink> |
         <RouterLink to="/login">Login</RouterLink>

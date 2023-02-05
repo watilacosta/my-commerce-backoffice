@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { onBeforeMount, ref } from "vue";
+import { ref } from "vue";
 import api from "@/utils/api";
 import { useAuthStore } from "@/stores/auth";
 import router from "@/router";
+import { useToast } from "vue-toastification";
 
 const authStore = useAuthStore();
 const email = ref("");
 const password = ref("");
+const welcomeToast = useToast();
 
 interface LoginPayload {
   email: string;
@@ -33,6 +35,7 @@ const login = async (payload: LoginPayload) => {
         authStore.setAuthToken(token);
         authStore.authenticate();
         router.push("/");
+        welcomeToast.success("Bem Vindo!");
       } else {
         console.log("Credenciais incorretas!");
       }
