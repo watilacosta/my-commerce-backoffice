@@ -25,8 +25,9 @@ const handleForm = async () => {
 };
 
 const login = async (payload: LoginPayload) => {
-  try {
-    await api.post("/auth/login", payload).then((response) => {
+  await api
+    .post("/auth/login", payload)
+    .then((response) => {
       const token = response.data.token;
 
       if (token) {
@@ -37,12 +38,12 @@ const login = async (payload: LoginPayload) => {
         router.push("/");
         welcomeToast.success("Bem Vindo!");
       } else {
-        welcomeToast.error("Suas credenciais parecem incorretas!");
+        welcomeToast.warning("Suas credenciais parecem incorretas!");
       }
+    })
+    .catch((error) => {
+      welcomeToast.error(`${error.response.satus} - ${error.response.data.error}`);
     });
-  } catch (error) {
-    console.log(error);
-  }
 };
 </script>
 
