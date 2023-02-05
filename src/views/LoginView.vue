@@ -37,7 +37,7 @@ const login = async (payload: LoginPayload) => {
         router.push("/");
         welcomeToast.success("Bem Vindo!");
       } else {
-        console.log("Credenciais incorretas!");
+        welcomeToast.error("Suas credenciais parecem incorretas!");
       }
     });
   } catch (error) {
