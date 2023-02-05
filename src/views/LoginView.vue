@@ -42,7 +42,9 @@ const login = async (payload: LoginPayload) => {
       }
     })
     .catch((error) => {
-      welcomeToast.error(`${error.response.satus} - ${error.response.data.error}`);
+      welcomeToast.error(
+        `${error.response.satus} - ${error.response.data.error}`
+      );
     });
 };
 </script>
