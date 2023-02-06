@@ -13,6 +13,10 @@ export const useAuthStore = defineStore("auth", () => {
   // ACTIONS function();
   const authenticate = () => (userIsAuthenticated.value = true);
   const setAuthToken = (token: string) => (authToken.value = token);
+  const reset = () => {
+    userIsAuthenticated.value = false;
+    authToken.value = "";
+  };
 
-  return { authenticate, setAuthToken, getAuthToken, isAuthenticated };
+  return { authenticate, setAuthToken, reset, getAuthToken, isAuthenticated };
 });

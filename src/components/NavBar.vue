@@ -1,16 +1,20 @@
+<script setup lang="ts">
+import LogOut from "@/components/LogOut.vue";
+</script>
+
 <template>
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="container">
       <!-- TODO: transformar em component -->
       <div class="navbar-brand">
-        <a class="navbar-item" href="https://bulma.io">
+        <RouterLink to="/" class="navbar-item">
           <img
             src="https://bulma.io/images/bulma-logo.png"
             width="112"
             height="28"
             alt=""
           />
-        </a>
+        </RouterLink>
         <a
           role="button"
           class="navbar-burger"
@@ -39,7 +43,7 @@
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="buttons">
-              <a class="button is-light">Sair</a>
+              <LogOut />
             </div>
           </div>
         </div>
