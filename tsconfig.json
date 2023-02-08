@@ -2,6 +2,8 @@
   "extends": "@vue/tsconfig/tsconfig.web.json",
   "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
   "compilerOptions": {
+    "target": "ES5",
+    "noEmitOnError": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]

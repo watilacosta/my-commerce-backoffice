@@ -7,8 +7,7 @@ const authStore = useAuthStore();
 const toast = useToast();
 
 const logout = () => {
-  sessionStorage.removeItem("token");
-  sessionStorage.removeItem("authenticated");
+  sessionStorage.clear();
   authStore.reset();
   router.push("/login");
   toast.success("Sessão encerrada!");

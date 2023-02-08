@@ -8,7 +8,7 @@ import { useToast } from "vue-toastification";
 const authStore = useAuthStore();
 const email = ref("");
 const password = ref("");
-const welcomeToast = useToast();
+const toast = useToast();
 
 interface LoginPayload {
   email: string;
@@ -24,6 +24,16 @@ const handleForm = async () => {
   await login(payload);
 };
 
+const setSessionItems = (token: string, authenticated: string) => {
+  sessionStorage.setItem("token", token);
+  sessionStorage.setItem("authenticated", authenticated);
+};
+
+const updateAuthStore = (token: string) => {
+  authStore.setAuthToken(token);
+  authStore.authenticate();
+};
+
 const login = async (payload: LoginPayload) => {
   await api
     .post("/auth/login", payload)
@@ -31,20 +41,16 @@ const login = async (payload: LoginPayload) => {
       const token = response.data.token;
 
       if (token) {
-        sessionStorage.setItem("token", token);
-        sessionStorage.setItem("authenticated", "yes");
-        authStore.setAuthToken(token);
-        authStore.authenticate();
+        setSessionItems(token, "yes");
+        updateAuthStore(token);
         router.push("/");
-        welcomeToast.success("Bem Vindo!");
+        toast.success("Bem Vindo!");
       } else {
-        welcomeToast.warning("Suas credenciais parecem incorretas!");
+        toast.warning("Suas credenciais parecem incorretas!");
       }
     })
     .catch((error) => {
-      welcomeToast.error(
-        `${error.response.satus} - ${error.response.data.error}`
-      );
+      toast.error(`${error.response.satus} - ${error.response.data.error}`);
     });
 };
 </script>
@@ -62,9 +68,9 @@ const login = async (payload: LoginPayload) => {
                   <input
                     v-model="email"
                     type="email"
-                    autocomplete="on"
                     placeholder="example.com"
                     class="input"
+                    autocomplete="on"
                     required
                   />
                   <span class="icon is-small is-left">
@@ -86,12 +92,6 @@ const login = async (payload: LoginPayload) => {
                     <font-awesome-icon icon="fa-solid fa-lock" />
                   </span>
                 </div>
-              </div>
-              <div class="field">
-                <label for="" class="checkbox">
-                  <input type="checkbox" />
-                  Remember me
-                </label>
               </div>
               <div class="field mt-5">
                 <button class="button is-success is-fullwidth">Entrar</button>

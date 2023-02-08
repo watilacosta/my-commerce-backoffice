@@ -3,9 +3,12 @@ import LogOut from "@/components/LogOut.vue";
 </script>
 
 <template>
-  <nav class="navbar" role="navigation" aria-label="main navigation">
+  <nav
+    class="navbar is-light mb-6"
+    role="navigation"
+    aria-label="main navigation"
+  >
     <div class="container">
-      <!-- TODO: transformar em component -->
       <div class="navbar-brand">
         <RouterLink to="/" class="navbar-item">
           <img
@@ -15,12 +18,16 @@ import LogOut from "@/components/LogOut.vue";
             alt=""
           />
         </RouterLink>
+        <div class="navbar-start">
+          <RouterLink to="/" class="navbar-item">Início</RouterLink>
+        </div>
         <a
           role="button"
           class="navbar-burger"
           aria-label="menu"
           aria-expanded="false"
           data-target="navbarBasicExample"
+          @click="showMenuBar"
         >
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -28,18 +35,6 @@ import LogOut from "@/components/LogOut.vue";
         </a>
       </div>
       <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-start">
-          <RouterLink to="/" class="navbar-item">Início</RouterLink>
-          <RouterLink to="/login" class="navbar-item">Login</RouterLink>
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link">More</a>
-            <div class="navbar-dropdown">
-              <a class="navbar-item">About</a>
-              <hr class="navbar-divider" />
-              <a class="navbar-item">Report an issue</a>
-            </div>
-          </div>
-        </div>
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="buttons">

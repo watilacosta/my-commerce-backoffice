@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
-import { onBeforeMount } from "vue";
+import { onMounted } from "vue";
 import NavBar from "@/components/NavBar.vue";
+import MenuTabs from "@/components/MenuTabs.vue";
 
 const authStore = useAuthStore();
 
-onBeforeMount(() => {
+onMounted(() => {
   const token = sessionStorage.getItem("token");
   const authenticated = sessionStorage.getItem("authenticated");
   if (token && authenticated) {
@@ -19,6 +20,7 @@ onBeforeMount(() => {
 <template>
   <NavBar v-if="authStore.isAuthenticated" />
   <div :class="authStore.isAuthenticated ? 'container' : ''">
+    <MenuTabs />
     <RouterView />
   </div>
 </template>
