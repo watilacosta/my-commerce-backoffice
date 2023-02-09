@@ -27,7 +27,6 @@ import LogOut from "@/components/LogOut.vue";
           aria-label="menu"
           aria-expanded="false"
           data-target="navbarBasicExample"
-          @click="showMenuBar"
         >
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>

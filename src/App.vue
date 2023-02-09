@@ -2,6 +2,7 @@
 import { RouterView } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 import { onMounted } from "vue";
+
 import NavBar from "@/components/NavBar.vue";
 import MenuTabs from "@/components/MenuTabs.vue";
 
@@ -20,7 +21,7 @@ onMounted(() => {
 <template>
   <NavBar v-if="authStore.isAuthenticated" />
   <div :class="authStore.isAuthenticated ? 'container' : ''">
-    <MenuTabs />
+    <MenuTabs v-if="authStore.isAuthenticated" />
     <RouterView />
   </div>
 </template>

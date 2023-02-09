@@ -24,10 +24,10 @@ library.add(faEnvelope, faLock);
 const app = createApp(App);
 const toastOptions: PluginOptions = {
   position: POSITION.TOP_RIGHT,
-  timeout: 5000,
+  timeout: 3000,
   closeOnClick: true,
   pauseOnFocusLoss: true,
-  pauseOnHover: true,
+  pauseOnHover: false,
   draggable: true,
   draggablePercent: 0.6,
   showCloseButtonOnHover: false,

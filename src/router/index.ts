@@ -3,7 +3,7 @@ import { useAuthStore } from "@/stores/auth";
 
 import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView.vue";
-import UserList from "@/components/UserList.vue";
+import UserList from "@/views/UserList.vue";
 import ProductList from "@/components/ProductList.vue";
 import CategoryList from "@/components/CategoryList.vue";
 import BrandList from "@/components/BrandList.vue";
