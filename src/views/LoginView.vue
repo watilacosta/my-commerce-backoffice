@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import api from "@/utils/api";
+import axios from "@/utils/axios";
 import { useAuthStore } from "@/stores/auth";
 import router from "@/router";
 import { useToast } from "vue-toastification";
@@ -35,7 +35,7 @@ const updateAuthStore = (token: string) => {
 };
 
 const login = async (payload: LoginPayload) => {
-  await api
+  await axios
     .post("/auth/login", payload)
     .then((response) => {
       const token = response.data.token;

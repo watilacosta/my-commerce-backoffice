@@ -15,5 +15,8 @@ const logout = () => {
 </script>
 
 <template>
-  <button class="button is-primary" @click="logout">Sair</button>
+  <button class="button is-primary" @click="logout">
+    Sair
+    <font-awesome-icon icon="fa-solid fa-right-from-bracket" class="ml-2" />
+  </button>
 </template>

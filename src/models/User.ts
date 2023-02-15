@@ -1,10 +1,10 @@
-export class UserType {
+export class User {
   private readonly _id: number;
   private readonly _firstname: string;
   private readonly _lastname: string;
   private readonly _email: string;
-  private _profile: string;
-  private _status: string;
+  private readonly _profile: string;
+  private readonly _status: string;
 
   constructor(
     id: number,
@@ -22,11 +22,23 @@ export class UserType {
     this._status = status;
   }
 
+  get id() {
+    return this._id;
+  }
+
   get fullName() {
     return `${this._firstname} ${this._lastname}`;
   }
 
   get email() {
     return this._email;
+  }
+
+  get profile() {
+    return this._profile;
+  }
+
+  get status() {
+    return this._status;
   }
 }

@@ -1,28 +1,31 @@
 <script setup lang="ts">
 import PageTitle from "@/components/PageTitle.vue";
 import { onMounted, ref } from "vue";
-import api from "@/utils/api";
+import axios from "@/utils/axios";
 import BackOfficeLoader from "@/components/BackOfficeLoader.vue";
+import { useUsersStore } from "@/stores/users";
 
-let users = ref([]);
+const usersStore = useUsersStore();
+const users = usersStore.listUsers;
+
 let loading = ref(true);
 let showTable = ref(false);
 
 onMounted(async () => {
-  const result = await api({
+  const result = await axios({
     method: "get",
     url: "/admin/users",
     headers: { Authorization: sessionStorage.getItem("token") },
   });
 
-  users.value = result.data;
+  usersStore.setUsersList(result.data);
   loading.value = false;
   showTable.value = true;
 });
 </script>
 
 <template>
-  <PageTitle title="Lista de Usuários" class="has-text-centered my-4" />
+  <PageTitle title="Lista de Usuários" class="my-4" />
   <BackOfficeLoader :loading="loading" />
   <div class="table-container">
     <Transition>
@@ -41,10 +44,12 @@ onMounted(async () => {
         </thead>
         <tbody>
           <tr v-for="user in users" :key="user.id">
-            <td>{{ `${user.firstname} ${user.lastname}` }}</td>
+            <td>{{ user.firstname }} {{ user.lastname }}</td>
             <td>{{ user.email }}</td>
             <td class="has-text-centered">{{ user.profile }}</td>
-            <td class="is-hidden-mobile has-text-centered">{{ user.status }}</td>
+            <td class="is-hidden-mobile has-text-centered">
+              {{ user.status }}
+            </td>
             <td class="has-text-centered"></td>
           </tr>
         </tbody>

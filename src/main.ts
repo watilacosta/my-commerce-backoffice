@@ -3,6 +3,7 @@ import { createPinia } from "pinia";
 import type { PluginOptions } from "vue-toastification";
 import Toast, { POSITION } from "vue-toastification";
 import "vue-toastification/dist/index.css";
+import "reflect-metadata"; // dependency of class-transformer
 
 import App from "./App.vue";
 import router from "./router";
@@ -16,15 +17,31 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 /* import specific icons */
-import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEnvelope,
+  faLock,
+  faRightFromBracket,
+  faUsers,
+  faBagShopping,
+  faTags,
+  faStore,
+} from "@fortawesome/free-solid-svg-icons";
 
 /* add icons to the library */
-library.add(faEnvelope, faLock);
+library.add(
+  faEnvelope,
+  faLock,
+  faRightFromBracket,
+  faUsers,
+  faBagShopping,
+  faTags,
+  faStore
+);
 
 const app = createApp(App);
 const toastOptions: PluginOptions = {
-  position: POSITION.TOP_RIGHT,
-  timeout: 3000,
+  position: POSITION.TOP_CENTER,
+  timeout: 4000,
   closeOnClick: true,
   pauseOnFocusLoss: true,
   pauseOnHover: false,

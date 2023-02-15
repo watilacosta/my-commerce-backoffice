@@ -5,6 +5,8 @@
     "target": "ES5",
     "noEmitOnError": true,
     "noImplicitAny": true,
+    "noImplicitThis": true,
+    "experimentalDecorators": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]

@@ -9,34 +9,34 @@ const currentPath = route.currentRoute;
   <div class="tabs is-centered">
     <ul>
       <li :class="currentPath.path === '/usuarios' ? 'is-active' : ''">
-        <RouterLink to="/usuarios">
+        <RouterLink to="/usuarios" title="Usuários">
           <span class="icon is-small">
-            <i class="fas fa-image" aria-hidden="true"></i>
+            <font-awesome-icon icon="fa-solid fa-users" />
           </span>
           <span>Usuários</span>
         </RouterLink>
       </li>
       <li :class="currentPath.path === '/produtos' ? 'is-active' : ''">
-        <RouterLink to="/produtos">
+        <RouterLink to="/produtos" title="Produtos">
           <span class="icon is-small">
-            <i class="fas fa-music" aria-hidden="true"></i>
+            <font-awesome-icon icon="fa-solid fa-bag-shopping" />
           </span>
           <span>Produtos</span>
         </RouterLink>
       </li>
       <li :class="currentPath.path === '/categorias' ? 'is-active' : ''">
         <RouterLink to="/categorias">
-          <span class="icon is-small"
-            ><i class="fas fa-film" aria-hidden="true"></i
-          ></span>
+          <span class="icon is-small">
+            <font-awesome-icon icon="fa-solid fa-tags" />
+          </span>
           <span>Categorias</span>
         </RouterLink>
       </li>
       <li :class="currentPath.path === '/marcas' ? 'is-active' : ''">
         <RouterLink to="/marcas">
-          <span class="icon is-small"
-            ><i class="far fa-file-alt" aria-hidden="true"></i
-          ></span>
+          <span class="icon is-small">
+            <font-awesome-icon icon="fa-solid fa-store" />
+          </span>
           <span>Marcas</span>
         </RouterLink>
       </li>
