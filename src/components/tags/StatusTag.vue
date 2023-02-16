@@ -6,6 +6,6 @@ const props = defineProps({
 </script>
 <template>
   <span class="tag" :class="props.active ? 'is-primary' : 'is-light'">
-    {{ active ? 'Ativo' : 'Inativo' }}
+    {{ active ? 'ATIVO' : 'INATIVO' }}
   </span>
 </template>

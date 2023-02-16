@@ -8,6 +8,7 @@ import { useToast } from "vue-toastification";
 import ServerError from "@/components/ServerError.vue";
 import TagComponent from "@/components/tags/StatusTag.vue";
 import ActiveTag from "@/components/tags/StatusTag.vue";
+import ProfileTag from "@/components/tags/ProfileTag.vue";
 
 interface User {
   id: string;
@@ -75,7 +76,9 @@ const fetchUsers = async () => {
           <tr v-for="(user, number) in users" :key="number">
             <td>{{ user.firstname }} {{ user.lastname }}</td>
             <td>{{ user.email }}</td>
-            <td class="has-text-centered">{{ user.profile }}</td>
+            <td class="has-text-centered">
+              <ProfileTag :profile="user.profile" />
+            </td>
             <td class="is-hidden-mobile has-text-centered">
               <ActiveTag :active="user.active" />
             </td>
