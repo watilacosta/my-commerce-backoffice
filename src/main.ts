@@ -40,8 +40,9 @@ library.add(
 
 const app = createApp(App);
 const toastOptions: PluginOptions = {
-  position: POSITION.TOP_CENTER,
-  timeout: 4000,
+  position: POSITION.TOP_RIGHT,
+  maxToasts: 4,
+  timeout: 5000,
   closeOnClick: true,
   pauseOnFocusLoss: true,
   pauseOnHover: false,
@@ -49,6 +50,7 @@ const toastOptions: PluginOptions = {
   draggablePercent: 0.6,
   showCloseButtonOnHover: false,
   hideProgressBar: false,
+  transition: "Vue-Toastification__slideBlurred",
   closeButton: "button",
   icon: true,
   rtl: false,

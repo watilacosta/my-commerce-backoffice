@@ -4,29 +4,58 @@ import { onMounted, ref } from "vue";
 import axios from "@/utils/axios";
 import BackOfficeLoader from "@/components/BackOfficeLoader.vue";
 import { useUsersStore } from "@/stores/users";
+import { useToast } from "vue-toastification";
+import ServerError from "@/components/ServerError.vue";
+import TagComponent from "@/components/tags/StatusTag.vue";
+import ActiveTag from "@/components/tags/StatusTag.vue";
+
+interface User {
+  id: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  profile: string;
+  active: boolean;
+}
 
 const usersStore = useUsersStore();
-const users = usersStore.listUsers;
+const users = usersStore.listUsers as User[];
+const toast = useToast();
 
 let loading = ref(true);
 let showTable = ref(false);
 
 onMounted(async () => {
-  const result = await axios({
-    method: "get",
-    url: "/admin/users",
-    headers: { Authorization: sessionStorage.getItem("token") },
-  });
+  const data = await fetchUsers();
 
-  usersStore.setUsersList(result.data);
-  loading.value = false;
-  showTable.value = true;
+  if (data) {
+    usersStore.setUsersList(data);
+    loading.value = false;
+    showTable.value = true;
+  }
 });
+
+const fetchUsers = async () => {
+  try {
+    const { data } = await axios({
+      method: "get",
+      url: "/admin/users",
+      headers: { Authorization: sessionStorage.getItem("token") },
+    });
+
+    return data;
+  } catch (error) {
+    loading.value = false;
+    showTable.value = false;
+    toast.info(ServerError);
+    console.warn(ServerError);
+  }
+};
 </script>
 
 <template>
-  <PageTitle title="Lista de Usuários" class="my-4" />
   <BackOfficeLoader :loading="loading" />
+  <PageTitle title="Lista de Usuários" class="my-4" />
   <div class="table-container">
     <Transition>
       <table
@@ -43,12 +72,12 @@ onMounted(async () => {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="user in users" :key="user.id">
+          <tr v-for="(user, number) in users" :key="number">
             <td>{{ user.firstname }} {{ user.lastname }}</td>
             <td>{{ user.email }}</td>
             <td class="has-text-centered">{{ user.profile }}</td>
             <td class="is-hidden-mobile has-text-centered">
-              {{ user.status }}
+              <ActiveTag :active="user.active" />
             </td>
             <td class="has-text-centered"></td>
           </tr>

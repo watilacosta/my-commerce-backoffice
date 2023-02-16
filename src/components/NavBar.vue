@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import LogOut from "@/components/LogoutButton.vue";
+import LogOutButton from "@/components/LogoutButton.vue";
 </script>
 
 <template>
@@ -37,7 +37,7 @@ import LogOut from "@/components/LogoutButton.vue";
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="buttons">
-              <LogOut />
+              <LogOutButton />
             </div>
           </div>
         </div>
