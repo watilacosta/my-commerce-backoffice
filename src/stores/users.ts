@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
-import type { User } from "@/models/User";
+import { User } from "@/models/User";
 
 export const useUsersStore = defineStore("users", () => {
   // STATE ref();
@@ -11,7 +11,11 @@ export const useUsersStore = defineStore("users", () => {
 
   // ACTIONS function();
   const setUsersList = (data: User[]) => {
-    usersList.value.push(...data);
+    usersList.value = data.map((item) => {
+      const { id, firstname, lastname, email, profile, active } = item;
+
+      return new User(id, firstname, lastname, email, profile, active);
+    });
   };
 
   return { listUsers, setUsersList };

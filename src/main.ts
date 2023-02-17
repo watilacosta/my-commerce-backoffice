@@ -25,6 +25,7 @@ import {
   faBagShopping,
   faTags,
   faStore,
+  faUserPen,
 } from "@fortawesome/free-solid-svg-icons";
 
 /* add icons to the library */
@@ -35,7 +36,8 @@ library.add(
   faUsers,
   faBagShopping,
   faTags,
-  faStore
+  faStore,
+  faUserPen
 );
 
 const app = createApp(App);
