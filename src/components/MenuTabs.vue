@@ -8,36 +8,36 @@ const currentPath = route.currentRoute;
 <template>
   <div class="tabs is-centered">
     <ul>
-      <li :class="currentPath.path === '/usuarios' ? 'is-active' : ''">
-        <RouterLink to="/usuarios" title="Usuários">
+      <li :class="currentPath.path === '/users' ? 'is-active' : ''">
+        <RouterLink to="/users" title="Users">
           <span class="icon is-small">
             <font-awesome-icon icon="fa-solid fa-users" />
           </span>
-          <span>Usuários</span>
+          <span>Users</span>
         </RouterLink>
       </li>
-      <li :class="currentPath.path === '/produtos' ? 'is-active' : ''">
-        <RouterLink to="/produtos" title="Produtos">
+      <li :class="currentPath.path === '/products' ? 'is-active' : ''">
+        <RouterLink to="/products" title="Products">
           <span class="icon is-small">
             <font-awesome-icon icon="fa-solid fa-bag-shopping" />
           </span>
-          <span>Produtos</span>
+          <span>Products</span>
         </RouterLink>
       </li>
-      <li :class="currentPath.path === '/categorias' ? 'is-active' : ''">
-        <RouterLink to="/categorias">
+      <li :class="currentPath.path === '/categories' ? 'is-active' : ''">
+        <RouterLink to="/categories">
           <span class="icon is-small">
             <font-awesome-icon icon="fa-solid fa-tags" />
           </span>
-          <span>Categorias</span>
+          <span>Categories</span>
         </RouterLink>
       </li>
-      <li :class="currentPath.path === '/marcas' ? 'is-active' : ''">
-        <RouterLink to="/marcas">
+      <li :class="currentPath.path === '/brands' ? 'is-active' : ''">
+        <RouterLink to="/brands">
           <span class="icon is-small">
             <font-awesome-icon icon="fa-solid fa-store" />
           </span>
-          <span>Marcas</span>
+          <span>Brands</span>
         </RouterLink>
       </li>
     </ul>

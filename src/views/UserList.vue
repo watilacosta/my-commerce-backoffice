@@ -76,9 +76,13 @@ const fetchUsers = async () => {
               <ActiveTag :active="user.active" />
             </td>
             <td class="has-text-centered">
-              <button class="button is-small is-responsive is-link">
-                <font-awesome-icon icon="fa-solid fa-user-pen" />
-              </button>
+              <RouterLink
+                :to="{ name: 'user', params: { id: user.id } }"
+                title="User Detail"
+                class="button is-small is-responsive is-link"
+              >
+                <font-awesome-icon icon="fa-solid fa-user-gear" />
+              </RouterLink>
             </td>
           </tr>
         </tbody>
