@@ -2,5 +2,5 @@
 const props = defineProps({ title: String });
 </script>
 <template>
-  <h1 class="is-size-4">{{ props.title }}</h1>
+  <h1 class="subtitle is-1">{{ props.title }}</h1>
 </template>
