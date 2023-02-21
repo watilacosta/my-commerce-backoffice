@@ -2,9 +2,10 @@ export class User {
   private readonly _id: string;
   private _firstname: string;
   private _lastname: string;
-  private readonly _email: string;
-  private readonly _profile: string;
-  private readonly _active: boolean;
+  private _email: string;
+  private _profile: string;
+  private _active: boolean;
+  private _name: string;
 
   constructor(
     id: string,
@@ -12,7 +13,7 @@ export class User {
     lastname: string,
     email: string,
     profile: string,
-    active: boolean
+    active: boolean,
   ) {
     this._id = id;
     this._firstname = firstname;
@@ -20,33 +21,50 @@ export class User {
     this._email = email;
     this._profile = profile;
     this._active = active;
+    this._name = `${firstname} ${lastname}`;
   }
 
-  public get id(): string {
+  get name(): string {
+    return this._name;
+  }
+
+  set name(name: string) {
+    this._name = name;
+  }
+
+  get id(): string {
     return this._id;
   }
 
-  public get fullname() {
-    return `${this._firstname} ${this._lastname}`;
-  }
-
-  public get email(): string {
+  get email(): string {
     return this._email;
   }
 
-  public get profile(): string {
+  get profile(): string {
     return this._profile;
   }
 
-  public get active(): boolean {
+  get active(): boolean {
     return this._active;
   }
 
-  public set firstname(firstname: string) {
+  set firstname(firstname: string) {
     this._firstname = firstname;
   }
 
-  public set lastname(lastname: string) {
+  set lastname(lastname: string) {
     this._lastname = lastname;
+  }
+
+  set active(value: boolean) {
+    this._active = value;
+  }
+
+  set profile(value: string) {
+    this._profile = value;
+  }
+
+  set email(value: string) {
+    this._email = value;
   }
 }

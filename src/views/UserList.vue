@@ -67,7 +67,7 @@ const fetchUsers = async () => {
         </thead>
         <tbody>
           <tr v-for="(user, number) in users" :key="number">
-            <td>{{ user.fullname }}</td>
+            <td>{{ user.name }}</td>
             <td>{{ user.email }}</td>
             <td class="has-text-centered">
               <ProfileTag :profile="user.profile" />
