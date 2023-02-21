@@ -1,5 +1,5 @@
 export class User {
-  private readonly _id: string;
+  private readonly _id: number;
   private _firstname: string;
   private _lastname: string;
   private _email: string;
@@ -8,12 +8,12 @@ export class User {
   private _name: string;
 
   constructor(
-    id: string,
+    id: number,
     firstname: string,
     lastname: string,
     email: string,
     profile: string,
-    active: boolean,
+    active: boolean
   ) {
     this._id = id;
     this._firstname = firstname;
@@ -32,7 +32,7 @@ export class User {
     this._name = name;
   }
 
-  get id(): string {
+  get id(): number {
     return this._id;
   }
 

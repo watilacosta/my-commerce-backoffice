@@ -1,27 +1,29 @@
 <script setup lang="ts">
 import router from "@/router";
 import { onMounted, ref } from "vue";
-import axios from "@/utils/axios";
 import PageTitle from "@/components/PageTitle.vue";
 import { User } from "@/models/User";
+import { useUsersStore } from "@/stores/users";
 
+const usersStore = useUsersStore();
 const { id } = router.currentRoute.value.params;
 
 let user = ref<User>({} as User);
 
 onMounted(async () => {
-  try {
-    const { data } = await axios({
-      method: "get",
-      url: `/admin/users/${id}/edit`,
-      headers: { Authorization: sessionStorage.getItem("token") },
-    });
-
-    user.value = data;
-  } catch (error) {
-    console.log(error);
-  }
+  const data = findUser(Number(id));
+  if (data) user.value = data;
 });
+
+const findUser = (id: number) => {
+  return usersStore.listUsers.find((user) => {
+    if (user.id === id) {
+      const { id, firstname, lastname, email, profile, active } = user;
+
+      return new User(id, firstname, lastname, email, profile, active);
+    }
+  });
+};
 </script>
 
 <template>
