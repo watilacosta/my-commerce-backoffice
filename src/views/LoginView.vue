@@ -41,7 +41,6 @@ const login = async (payload: LoginPayload) => {
       const token = response.data.token;
 
       if (token) {
-        setSessionItems(token, "yes");
         updateAuthStore(token);
         router.push("/");
         toast.success("Bem Vindo!");

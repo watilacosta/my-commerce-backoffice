@@ -9,12 +9,11 @@ import BackOfficeLoader from "@/components/BackOfficeLoader.vue";
 import ServerError from "@/components/ServerError.vue";
 import ActiveTag from "@/components/tags/StatusTag.vue";
 import ProfileTag from "@/components/tags/ProfileTag.vue";
-import { User } from "@/models/User";
 
 const toast = useToast();
-const usersStore = useUsersStore();
+const store = useUsersStore();
 
-let users = ref<User[]>([]);
+let users = store.listUsers;
 let loading = ref(true);
 let showTable = ref(false);
 
@@ -22,19 +21,21 @@ onMounted(async () => {
   const data = await fetchUsers();
 
   if (data) {
-    usersStore.setUsersList(data);
-    users.value = usersStore.listUsers;
+    store.setUsersList(data);
+    users = store.listUsers;
     loading.value = false;
     showTable.value = true;
   }
 });
 
 const fetchUsers = async () => {
+  const auth = JSON.parse(sessionStorage.getItem("auth") || "");
+
   try {
     const { data } = await axios({
       method: "get",
       url: "/admin/users",
-      headers: { Authorization: sessionStorage.getItem("token") },
+      headers: { Authorization: auth.authToken },
     });
 
     return data;
@@ -58,6 +59,7 @@ const fetchUsers = async () => {
       >
         <thead>
           <tr>
+            <th>#</th>
             <th>Nome</th>
             <th>Email</th>
             <th class="has-text-centered">Perfil</th>
@@ -67,6 +69,7 @@ const fetchUsers = async () => {
         </thead>
         <tbody>
           <tr v-for="(user, number) in users" :key="number">
+            <td>{{ number + 1 }}</td>
             <td>{{ user.name }}</td>
             <td>{{ user.email }}</td>
             <td class="has-text-centered">

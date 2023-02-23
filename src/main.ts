@@ -4,6 +4,7 @@ import type { PluginOptions } from "vue-toastification";
 import Toast, { POSITION } from "vue-toastification";
 import "vue-toastification/dist/index.css";
 import "reflect-metadata"; // dependency of class-transformer
+import piniaPluginPersistedState from "pinia-plugin-persistedstate";
 
 import App from "./App.vue";
 import router from "./router";
@@ -60,10 +61,13 @@ const toastOptions: PluginOptions = {
   rtl: false,
 };
 
+const pinia = createPinia();
+pinia.use(piniaPluginPersistedState);
+
 /* add font awesome icon component */
 app.component("font-awesome-icon", FontAwesomeIcon);
 
-app.use(createPinia());
+app.use(pinia);
 app.use(router);
 app.use(Toast, toastOptions);
 
