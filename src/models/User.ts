@@ -27,44 +27,41 @@ export class User {
   get name(): string {
     return this._name;
   }
+  get id(): number {
+    return this._id;
+  }
+  get email(): string {
+    return this._email;
+  }
+  get profile(): string {
+    return this._profile;
+  }
+  get active(): boolean {
+    return this._active;
+  }
+  get lastname(): string {
+    return this._lastname;
+  }
+  get firstname(): string {
+    return this._firstname;
+  }
 
   set name(name: string) {
     this._name = name;
   }
-
-  get id(): number {
-    return this._id;
+  set email(value: string) {
+    this._email = value;
   }
-
-  get email(): string {
-    return this._email;
-  }
-
-  get profile(): string {
-    return this._profile;
-  }
-
-  get active(): boolean {
-    return this._active;
-  }
-
-  set firstname(firstname: string) {
-    this._firstname = firstname;
-  }
-
-  set lastname(lastname: string) {
-    this._lastname = lastname;
-  }
-
-  set active(value: boolean) {
-    this._active = value;
-  }
-
   set profile(value: string) {
     this._profile = value;
   }
-
-  set email(value: string) {
-    this._email = value;
+  set active(value: boolean) {
+    this._active = value;
+  }
+  set lastname(lastname: string) {
+    this._lastname = lastname;
+  }
+  set firstname(firstname: string) {
+    this._firstname = firstname;
   }
 }

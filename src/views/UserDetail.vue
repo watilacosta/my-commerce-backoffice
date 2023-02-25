@@ -2,45 +2,31 @@
 import router from "@/router";
 import { onMounted, ref } from "vue";
 import PageTitle from "@/components/PageTitle.vue";
-import { User } from "@/models/User";
 import { useUsersStore } from "@/stores/users";
+import { User } from "@/models/User";
 
-const usersStore = useUsersStore();
+const showDetails = ref(false);
+const store = useUsersStore();
+let userStorage = JSON.parse(localStorage.getItem("users") || "");
+let user = userStorage.user;
 
-let user = ref<User>({} as User);
+onMounted(() => {
+  let { id } = router.currentRoute.value.params;
 
-onMounted(async () => {
-  const { id } = router.currentRoute.value.params;
-  const data = findUser(Number(id));
+  if (user.id === undefined || user.id !== Number(id)) {
+    store.
 
-  if (data) {
-    user.value = data;
-    sessionStorage.setItem("editUserId", id.toString());
+    showDetails.value = true;
   }
 });
-
-const findUser = (id: User["id"]) => {
-  return usersStore.listUsers.find((user) => {
-    if (user.id === id) {
-      const { id, firstname, lastname, email, profile, active } = user;
-
-      return new User(id, firstname, lastname, email, profile, active);
-    }
-  });
-};
-
-const updateUser = () => {
-  console.log(user.value);
-  localStorage.removeItem("userId");
-};
 </script>
 
 <template>
-  <PageTitle title="Use details" />
-  <div class="columns">
+  <PageTitle title="User details" />
+  <div class="columns" v-if="showDetails">
     <div class="column is-two-thirds">
       <section class="panel is-primary">
-        <form class="box" @submit.prevent="updateUser">
+        <form class="box">
           <div class="field">
             <label class="label">Name</label>
             <div class="control">

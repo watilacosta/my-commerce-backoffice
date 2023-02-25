@@ -8,6 +8,7 @@ const toast = useToast();
 
 const logout = () => {
   sessionStorage.clear();
+  localStorage.clear();
   authStore.reset();
   router.push("/login");
   toast.success("Sessão encerrada!");

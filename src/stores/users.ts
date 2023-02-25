@@ -5,11 +5,12 @@ export const useUsersStore = defineStore("users", {
   state: () => {
     return {
       usersList: [] as User[],
+      user: {} as User,
     };
   },
-  persist: true,
   getters: {
     listUsers: (state) => state.usersList,
+    getUser: (state) => state.user,
   },
   actions: {
     setUsersList(data: User[]) {
@@ -19,5 +20,15 @@ export const useUsersStore = defineStore("users", {
         return new User(id, firstname, lastname, email, profile, active);
       });
     },
+    setUser(id: number) {
+      const newUser = this.usersList.find((user) => {
+        if (user.id === id) {
+          return user;
+        }
+      });
+
+      this.user = newUser as User;
+    },
   },
+  persist: true,
 });
