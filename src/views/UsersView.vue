@@ -3,12 +3,13 @@ import axios from "@/utils/axios";
 import { onMounted, ref } from "vue";
 import { useToast } from "vue-toastification";
 import { useUsersStore } from "@/stores/users";
-
-import PageTitle from "@/components/PageTitle.vue";
 import BackOfficeLoader from "@/components/BackOfficeLoader.vue";
 import ServerError from "@/components/ServerError.vue";
-import ActiveTag from "@/components/tags/StatusTag.vue";
+import PageTitle from "@/components/PageTitle.vue";
 import ProfileTag from "@/components/tags/ProfileTag.vue";
+import StatusTag from "@/components/tags/StatusTag.vue";
+import MainModal from "@/components/MainModal.vue";
+import { User } from "@/models/User";
 
 const toast = useToast();
 const store = useUsersStore();
@@ -16,6 +17,13 @@ const store = useUsersStore();
 let users = store.listUsers;
 let loading = ref(true);
 let showTable = ref(false);
+let showModal = ref(false);
+let selectedUser = ref<User>({} as User);
+
+const showUser = (user: User) => {
+  selectedUser.value = user;
+  showModal.value = true;
+};
 
 onMounted(async () => {
   const data = await fetchUsers();
@@ -76,22 +84,31 @@ const fetchUsers = async () => {
               <ProfileTag :profile="user.profile" />
             </td>
             <td class="is-hidden-mobile has-text-centered">
-              <ActiveTag :active="user.active" />
+              <StatusTag :active="user.active" />
             </td>
             <td class="has-text-centered">
-              <RouterLink
-                :to="{ name: 'user', params: { id: user.id } }"
-                title="User Detail"
+              <button
+                @click="showUser(user)"
+                title="Configurações do usuário"
                 class="button is-small is-responsive is-link"
               >
                 <font-awesome-icon icon="fa-solid fa-user-gear" />
-              </RouterLink>
+              </button>
             </td>
           </tr>
         </tbody>
       </table>
     </Transition>
   </div>
+  <Teleport to="body">
+    <MainModal
+      :open="showModal"
+      :title="'Configurações do Usuário'"
+      @close="showModal = false"
+    >
+      <p>{{ selectedUser.name }}</p>
+    </MainModal>
+  </Teleport>
 </template>
 
 <style>

@@ -24,11 +24,6 @@ const handleForm = async () => {
   await login(payload);
 };
 
-const setSessionItems = (token: string, authenticated: string) => {
-  sessionStorage.setItem("token", token);
-  sessionStorage.setItem("authenticated", authenticated);
-};
-
 const updateAuthStore = (token: string) => {
   authStore.setAuthToken(token);
   authStore.authenticate();

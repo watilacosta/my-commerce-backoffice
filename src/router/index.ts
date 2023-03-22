@@ -3,11 +3,10 @@ import { useAuthStore } from "@/stores/auth";
 
 import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView.vue";
-import UserList from "@/views/UserList.vue";
+import UserList from "@/views/UsersView.vue";
 import ProductList from "@/components/ProductList.vue";
 import CategoryList from "@/components/CategoryList.vue";
 import BrandList from "@/components/BrandList.vue";
-import UserDetail from "@/views/UserDetail.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -36,11 +35,6 @@ const router = createRouter({
       path: "/users",
       name: "Users",
       component: UserList,
-    },
-    {
-      path: "/user/:id",
-      name: "user",
-      component: UserDetail,
     },
     // ******************************** PRODUCTS *******************************
     {

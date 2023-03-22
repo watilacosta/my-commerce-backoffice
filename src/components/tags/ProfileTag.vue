@@ -4,7 +4,10 @@ const props = defineProps({
 });
 </script>
 <template>
-  <span class="tag" :class="props.profile === 'admin' ? 'is-black' : 'is-white'">
+  <span
+    class="tag"
+    :class="props.profile === 'admin' ? 'is-black' : 'is-white'"
+  >
     {{ props.profile.toUpperCase() }}
   </span>
-</template>;
+</template>
