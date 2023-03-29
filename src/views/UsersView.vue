@@ -9,6 +9,7 @@ import PageTitle from "@/components/PageTitle.vue";
 import ProfileTag from "@/components/tags/ProfileTag.vue";
 import StatusTag from "@/components/tags/StatusTag.vue";
 import MainModal from "@/components/MainModal.vue";
+import FormUser from "@/components/user/FormUser.vue";
 import { User } from "@/models/User";
 
 const toast = useToast();
@@ -18,10 +19,10 @@ let users = store.listUsers;
 let loading = ref(true);
 let showTable = ref(false);
 let showModal = ref(false);
-let selectedUser = ref<User>({} as User);
+let user = ref({} as User);
 
-const showUser = (user: User) => {
-  selectedUser.value = user;
+const editUser = (selectedUser: User) => {
+  user.value = selectedUser;
   showModal.value = true;
 };
 
@@ -88,7 +89,7 @@ const fetchUsers = async () => {
             </td>
             <td class="has-text-centered">
               <button
-                @click="showUser(user)"
+                @click="editUser(user)"
                 title="Configurações do usuário"
                 class="button is-small is-responsive is-link"
               >
@@ -106,7 +107,7 @@ const fetchUsers = async () => {
       :title="'Configurações do Usuário'"
       @close="showModal = false"
     >
-      <p>{{ selectedUser.name }}</p>
+      <FormUser :user="user" />
     </MainModal>
   </Teleport>
 </template>

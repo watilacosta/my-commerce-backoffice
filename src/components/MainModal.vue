@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { User } from "@/models/User";
-
 defineProps({
   open: Boolean,
   title: String,

@@ -28,6 +28,8 @@ import {
   faStore,
   faUserPen,
   faUserGear,
+  faUser,
+  faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
 /* add icons to the library */
@@ -40,7 +42,10 @@ library.add(
   faTags,
   faStore,
   faUserPen,
-  faUserGear
+  faUserGear,
+  faUser,
+  faCheck,
+  faEnvelope
 );
 
 const app = createApp(App);
