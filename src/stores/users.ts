@@ -15,7 +15,7 @@ export const useUsersStore = defineStore("users", {
       this.users = data.map((item) => {
         const { id, firstname, lastname, email, profile, active } = item;
 
-        return new User({ name: id }, firstname, lastname, email, profile, active);
+        return new User(id, firstname, lastname, email, profile, active);
       });
     },
   },
