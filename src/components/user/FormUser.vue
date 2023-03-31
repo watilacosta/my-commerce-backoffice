@@ -20,8 +20,6 @@ const submitForm = () => {
     .then((response) => console.log(response))
     .catch((e: Error) => console.log(e));
 };
-
-const isAdmin = () => computedUser.value.profile === "admin";
 </script>
 <template>
   <form @submit.prevent="submitForm">
@@ -79,8 +77,15 @@ const isAdmin = () => computedUser.value.profile === "admin";
         <div class="field">
           <div class="control">
             <label class="checkbox">
-              <input type="checkbox" :checked="isAdmin" />
-              {{ isAdmin ? "Sim" : "Não" }}
+              <input
+                type="checkbox"
+                :checked="computedUser.profile === 'admin'"
+                @change="
+                  computedUser.profile =
+                    computedUser.profile === 'admin' ? 'customer' : 'admin'
+                "
+              />
+              {{ computedUser.profile === "admin" ? "Sim" : "Não" }}
             </label>
           </div>
         </div>
