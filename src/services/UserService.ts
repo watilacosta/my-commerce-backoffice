@@ -17,7 +17,16 @@ class UserService {
     });
   }
 
-  // privates
+  updateStatus(id: number, status: boolean): Promise<any> {
+    return axios({
+      method: "patch",
+      url: `${this.path}/${id}`,
+      data: { user: { active: status } },
+      headers: { Authorization: this.auth.authToken },
+    });
+  }
+
+  // PRIVATE METHODS
   private splitName = (name: string) => {
     const splitName = name.split(" ");
 

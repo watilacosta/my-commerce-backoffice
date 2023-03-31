@@ -7,13 +7,14 @@ import BackOfficeLoader from "@/components/BackOfficeLoader.vue";
 import ServerError from "@/components/ServerError.vue";
 import PageTitle from "@/components/PageTitle.vue";
 import ProfileTag from "@/components/tags/ProfileTag.vue";
-import StatusTag from "@/components/tags/StatusTag.vue";
 import MainModal from "@/components/MainModal.vue";
 import FormUser from "@/components/user/FormUser.vue";
 import { User } from "@/models/User";
+import UserService from "@/services/UserService";
 
 const toast = useToast();
 const store = useUsersStore();
+const service = UserService;
 
 let users = store.listUsers;
 let loading = ref(true);
@@ -55,6 +56,14 @@ const fetchUsers = async () => {
     console.warn(ServerError);
   }
 };
+
+const toggleActiveUser = (id: number, status: boolean) => {
+  service.updateStatus(id, !status).then((response) => {
+    if (response) {
+      toast.success(`Usuário ${status ? "ativado" : "desativado"} com sucesso!`);
+    }
+  });
+};
 </script>
 
 <template>
@@ -68,7 +77,7 @@ const fetchUsers = async () => {
       >
         <thead>
           <tr>
-            <th>#</th>
+            <th class="has-text-centered">#</th>
             <th>Nome</th>
             <th>Email</th>
             <th class="has-text-centered">Perfil</th>
@@ -77,7 +86,11 @@ const fetchUsers = async () => {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(user, number) in users" :key="number">
+          <tr
+            class="has-text-centered"
+            v-for="(user, number) in users"
+            :key="number"
+          >
             <td>{{ number + 1 }}</td>
             <td>{{ user.name }}</td>
             <td>{{ user.email }}</td>
@@ -85,7 +98,13 @@ const fetchUsers = async () => {
               <ProfileTag :profile="user.profile" />
             </td>
             <td class="is-hidden-mobile has-text-centered">
-              <StatusTag :active="user.active" />
+              <a
+                class="tag"
+                :class="user.active ? 'is-primary' : 'is-light'"
+                @click="toggleActiveUser(user.id, user.active)"
+              >
+                {{ active ? "ATIVO" : "INATIVO" }}
+              </a>
             </td>
             <td class="has-text-centered">
               <button
