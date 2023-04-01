@@ -59,7 +59,7 @@ const fetchUsers = async () => {
 
 const toggleActiveUser = (user: User) => {
   user.active = !user.active;
-  service.updateStatus(user.id, !user.active).then((response) => {
+  service.updateStatus(user.id, user.active).then((response) => {
     if (response) {
       toast.success(`Usuário ${response.data.active ? "ativado" : "desativado"} com sucesso!`);
     }
