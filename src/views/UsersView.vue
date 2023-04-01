@@ -57,10 +57,11 @@ const fetchUsers = async () => {
   }
 };
 
-const toggleActiveUser = (id: number, status: boolean) => {
-  service.updateStatus(id, !status).then((response) => {
+const toggleActiveUser = (user: User) => {
+  user.active = !user.active;
+  service.updateStatus(user.id, !user.active).then((response) => {
     if (response) {
-      toast.success(`Usuário ${status ? "ativado" : "desativado"} com sucesso!`);
+      toast.success(`Usuário ${response.data.active ? "ativado" : "desativado"} com sucesso!`);
     }
   });
 };
@@ -101,9 +102,9 @@ const toggleActiveUser = (id: number, status: boolean) => {
               <a
                 class="tag"
                 :class="user.active ? 'is-primary' : 'is-light'"
-                @click="toggleActiveUser(user.id, user.active)"
+                @click="toggleActiveUser(user)"
               >
-                {{ active ? "ATIVO" : "INATIVO" }}
+                {{ user.active ? "ATIVO" : "INATIVO" }}
               </a>
             </td>
             <td class="has-text-centered">
@@ -126,7 +127,7 @@ const toggleActiveUser = (id: number, status: boolean) => {
       :title="'Configurações do Usuário'"
       @close="showModal = false"
     >
-      <FormUser :user="user" />
+      <FormUser :user="user" v-on:closeModal="showModal = false" />
     </MainModal>
   </Teleport>
 </template>

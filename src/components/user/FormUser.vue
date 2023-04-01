@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import { User } from "@/models/User";
 import UserService from "@/services/UserService";
+import { useToast } from "vue-toastification";
 
 const service = UserService;
 
@@ -17,8 +18,8 @@ const computedUser = computed(() => props.user as User);
 const submitForm = () => {
   service
     .update(computedUser.value)
-    .then((response) => console.log(response))
-    .catch((e: Error) => console.log(e));
+    .then(() => useToast().success("Usuário atualizado com sucesso!"))
+    .catch((e: Error) => useToast().error(e.message));
 };
 
 const changeProfile = () => {
@@ -94,8 +95,12 @@ const changeProfile = () => {
       </div>
     </div>
     <div class="control is-flex is-justify-content-flex-end">
-      <button class="button is-primary is-medium is-responsive" type="submit">
-        Atualizar
+      <button
+        class="button is-primary is-medium is-responsive"
+        type="submit"
+        @click="$emit('closeModal')"
+      >
+        Salvar alterações
       </button>
     </div>
   </form>
