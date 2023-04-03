@@ -21,7 +21,7 @@ const filters = ref({
   email: { value: "", keys: ["email"] },
   profile: {
     value: null,
-    keys: ["profile", "profile-admin", "profile-customer"],
+    keys: ["profile"],
   },
 });
 
@@ -97,10 +97,11 @@ const toggleActiveUser = (user: User) => {
         <template #head>
           <tr>
             <th class="has-text-centered">#</th>
-            <th>Nome</th>
-            <th>Email</th>
-            <th class="has-text-centered">Perfil</th>
-            <th class="is-hidden-mobile has-text-centered">Status</th>
+            <v-th sortKey="name">Nome</v-th>
+            <v-th sortKey="email">Email</v-th>
+            <v-th sortKey="active" class="is-hidden-mobile has-text-centered"
+              >Status</v-th>
+            <v-th sortKey="profile" class="has-text-centered">Perfil</v-th>
             <th class="has-text-centered">Opções</th>
           </tr>
         </template>
@@ -113,9 +114,6 @@ const toggleActiveUser = (user: User) => {
             <td>{{ number + 1 }}</td>
             <td>{{ row.name }}</td>
             <td>{{ row.email }}</td>
-            <td class="has-text-centered">
-              <ProfileTag :profile="row.profile" />
-            </td>
             <td class="is-hidden-mobile has-text-centered">
               <a
                 class="tag"
@@ -124,6 +122,9 @@ const toggleActiveUser = (user: User) => {
               >
                 {{ row.active ? "ATIVO" : "INATIVO" }}
               </a>
+            </td>
+            <td class="has-text-centered">
+              <ProfileTag :profile="row.profile" />
             </td>
             <td class="has-text-centered">
               <button
