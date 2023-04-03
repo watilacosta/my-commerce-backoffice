@@ -10,7 +10,7 @@ import router from "./router";
 import "../node_modules/bulma/css/bulma.css";
 import { library } from "@fortawesome/fontawesome-svg-core"; /* import the fontawesome core */
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"; /* import font awesome icon component */
-import SmartTable from 'vuejs-smart-table'
+import SmartTable from "vuejs-smart-table";
 import {
   faEnvelope,
   faLock,

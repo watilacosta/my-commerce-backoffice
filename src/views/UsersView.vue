@@ -17,6 +17,11 @@ const store = useUsersStore();
 const service = UserService;
 const filters = ref({
   name: { value: "", keys: ["name"] },
+  email: { value: "", keys: ["email"] },
+  profile: {
+    value: null,
+    keys: ["profile", "profile-admin", "profile-customer"],
+  },
 });
 
 let users = store.listUsers;
@@ -66,7 +71,11 @@ const toggleActiveUser = (user: User) => {
   user.active = !user.active;
   service.updateStatus(user.id, user.active).then((response) => {
     if (response) {
-      toast.success(`Usuário ${response.data.active ? "ativado" : "desativado"} com sucesso!`);
+      toast.success(
+        `Usuário ${
+          response.data.active ? "ativado" : "desativado"
+        } com sucesso!`
+      );
     }
   });
 };
@@ -76,6 +85,54 @@ const toggleActiveUser = (user: User) => {
   <BackOfficeLoader :loading="loading" />
   <PageTitle title="Lista de Usuários" class="my-4" />
   <div class="table-container">
+    <div class="box">
+      <div class="subtitle">Filtros de busca</div>
+      <div class="field-body">
+        <div class="field">
+          <input
+            class="input"
+            v-model="filters.name.value"
+            placeholder="Busca por nome"
+          />
+        </div>
+        <div class="field">
+          <input
+            class="input"
+            v-model="filters.email.value"
+            placeholder="Busca por email"
+          />
+        </div>
+        <div class="control">
+          <label class="radio">
+            <input
+              type="radio"
+              name="profile"
+              value=""
+              v-model="filters.profile.value"
+            />
+            TODOS
+          </label>
+          <label class="radio">
+            <input
+              type="radio"
+              name="profile"
+              value="ADMIN"
+              v-model="filters.profile.value"
+            />
+            ADMIN
+          </label>
+          <label class="radio">
+            <input
+              type="radio"
+              name="profile"
+              value="CUSTOMER"
+              v-model="filters.profile.value"
+            />
+            CUSTOMER
+          </label>
+        </div>
+      </div>
+    </div>
     <Transition>
       <VTable
         :data="users"
