@@ -4,7 +4,7 @@
   "compilerOptions": {
     "target": "ES5",
     "noEmitOnError": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "noImplicitThis": true,
     "experimentalDecorators": true,
     "baseUrl": ".",

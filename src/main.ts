@@ -5,19 +5,12 @@ import Toast, { POSITION } from "vue-toastification";
 import "vue-toastification/dist/index.css";
 import "reflect-metadata"; // dependency of class-transformer
 import piniaPluginPersistedState from "pinia-plugin-persistedstate";
-
 import App from "./App.vue";
 import router from "./router";
-
 import "../node_modules/bulma/css/bulma.css";
-
-/* import the fontawesome core */
-import { library } from "@fortawesome/fontawesome-svg-core";
-
-/* import font awesome icon component */
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-
-/* import specific icons */
+import { library } from "@fortawesome/fontawesome-svg-core"; /* import the fontawesome core */
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"; /* import font awesome icon component */
+import SmartTable from 'vuejs-smart-table'
 import {
   faEnvelope,
   faLock,
@@ -30,7 +23,7 @@ import {
   faUserGear,
   faUser,
   faCheck,
-} from "@fortawesome/free-solid-svg-icons";
+} from "@fortawesome/free-solid-svg-icons"; /* import specific icons */
 
 /* add icons to the library */
 library.add(
@@ -72,6 +65,7 @@ pinia.use(piniaPluginPersistedState);
 /* add font awesome icon component */
 app.component("font-awesome-icon", FontAwesomeIcon);
 
+app.use(SmartTable);
 app.use(pinia);
 app.use(router);
 app.use(Toast, toastOptions);

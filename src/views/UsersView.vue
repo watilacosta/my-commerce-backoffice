@@ -15,6 +15,9 @@ import UserService from "@/services/UserService";
 const toast = useToast();
 const store = useUsersStore();
 const service = UserService;
+const filters = ref({
+  name: { value: "", keys: ["name"] },
+});
 
 let users = store.listUsers;
 let loading = ref(true);
@@ -23,6 +26,8 @@ let showModal = ref(false);
 let user = ref({} as User);
 
 const editUser = (selectedUser: User) => {
+  if (!selectedUser.active) return;
+
   user.value = selectedUser;
   showModal.value = true;
 };
@@ -72,11 +77,13 @@ const toggleActiveUser = (user: User) => {
   <PageTitle title="Lista de Usuários" class="my-4" />
   <div class="table-container">
     <Transition>
-      <table
-        class="table is-bordered is-narrow is-hoverable is-striped is-fullwidth my-3"
+      <VTable
+        :data="users"
+        :filters="filters"
         v-if="showTable"
+        class="table is-bordered is-narrow is-hoverable is-striped is-fullwidth my-3"
       >
-        <thead>
+        <template #head>
           <tr>
             <th class="has-text-centered">#</th>
             <th>Nome</th>
@@ -85,31 +92,32 @@ const toggleActiveUser = (user: User) => {
             <th class="is-hidden-mobile has-text-centered">Status</th>
             <th class="has-text-centered">Opções</th>
           </tr>
-        </thead>
-        <tbody>
+        </template>
+        <template #body="{ rows }">
           <tr
+            v-for="(row, number) in rows"
+            :key="number + 1"
             class="has-text-centered"
-            v-for="(user, number) in users"
-            :key="number"
           >
             <td>{{ number + 1 }}</td>
-            <td>{{ user.name }}</td>
-            <td>{{ user.email }}</td>
+            <td>{{ row.name }}</td>
+            <td>{{ row.email }}</td>
             <td class="has-text-centered">
-              <ProfileTag :profile="user.profile" />
+              <ProfileTag :profile="row.profile" />
             </td>
             <td class="is-hidden-mobile has-text-centered">
               <a
                 class="tag"
-                :class="user.active ? 'is-primary' : 'is-light'"
-                @click="toggleActiveUser(user)"
+                :class="row.active ? 'is-primary' : 'is-danger'"
+                @click="toggleActiveUser(row)"
               >
-                {{ user.active ? "ATIVO" : "INATIVO" }}
+                {{ row.active ? "ATIVO" : "INATIVO" }}
               </a>
             </td>
             <td class="has-text-centered">
               <button
-                @click="editUser(user)"
+                :disabled="!row.active"
+                @click="editUser(row)"
                 title="Configurações do usuário"
                 class="button is-small is-responsive is-link"
               >
@@ -117,8 +125,8 @@ const toggleActiveUser = (user: User) => {
               </button>
             </td>
           </tr>
-        </tbody>
-      </table>
+        </template>
+      </VTable>
     </Transition>
   </div>
   <Teleport to="body">
