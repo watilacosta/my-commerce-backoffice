@@ -11,6 +11,7 @@ import MainModal from "@/components/MainModal.vue";
 import FormUser from "@/components/user/FormUser.vue";
 import { User } from "@/models/User";
 import UserService from "@/services/UserService";
+import UsersFiler from "@/views/UsersFilter.vue";
 
 const toast = useToast();
 const store = useUsersStore();
@@ -85,54 +86,7 @@ const toggleActiveUser = (user: User) => {
   <BackOfficeLoader :loading="loading" />
   <PageTitle title="Lista de Usuários" class="my-4" />
   <div class="table-container">
-    <div class="box">
-      <div class="subtitle">Filtros de busca</div>
-      <div class="field-body">
-        <div class="field">
-          <input
-            class="input"
-            v-model="filters.name.value"
-            placeholder="Busca por nome"
-          />
-        </div>
-        <div class="field">
-          <input
-            class="input"
-            v-model="filters.email.value"
-            placeholder="Busca por email"
-          />
-        </div>
-        <div class="control">
-          <label class="radio">
-            <input
-              type="radio"
-              name="profile"
-              value=""
-              v-model="filters.profile.value"
-            />
-            TODOS
-          </label>
-          <label class="radio">
-            <input
-              type="radio"
-              name="profile"
-              value="ADMIN"
-              v-model="filters.profile.value"
-            />
-            ADMIN
-          </label>
-          <label class="radio">
-            <input
-              type="radio"
-              name="profile"
-              value="CUSTOMER"
-              v-model="filters.profile.value"
-            />
-            CUSTOMER
-          </label>
-        </div>
-      </div>
-    </div>
+    <UsersFiler :filters="filters" />
     <Transition>
       <VTable
         :data="users"
