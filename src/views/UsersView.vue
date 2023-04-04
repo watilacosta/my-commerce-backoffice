@@ -30,6 +30,8 @@ let loading = ref(true);
 let showTable = ref(false);
 let showModal = ref(false);
 let user = ref({} as User);
+let currentPage = ref(1);
+let totalPages = ref(0);
 
 const editUser = (selectedUser: User) => {
   if (!selectedUser.active) return;
@@ -88,57 +90,67 @@ const toggleActiveUser = (user: User) => {
   <div class="table-container">
     <UsersFiler :filters="filters" />
     <Transition>
-      <VTable
-        :data="users"
-        :filters="filters"
-        v-if="showTable"
-        class="table is-bordered is-narrow is-hoverable is-striped is-fullwidth my-3"
-      >
-        <template #head>
-          <tr>
-            <th class="has-text-centered">#</th>
-            <v-th sortKey="name">Nome</v-th>
-            <v-th sortKey="email">Email</v-th>
-            <v-th sortKey="active" class="is-hidden-mobile has-text-centered"
-              >Status</v-th>
-            <v-th sortKey="profile" class="has-text-centered">Perfil</v-th>
-            <th class="has-text-centered">Opções</th>
-          </tr>
-        </template>
-        <template #body="{ rows }">
-          <tr
-            v-for="(row, number) in rows"
-            :key="number + 1"
-            class="has-text-centered"
-          >
-            <td>{{ number + 1 }}</td>
-            <td>{{ row.name }}</td>
-            <td>{{ row.email }}</td>
-            <td class="is-hidden-mobile has-text-centered">
-              <a
-                class="tag"
-                :class="row.active ? 'is-primary' : 'is-danger'"
-                @click="toggleActiveUser(row)"
+      <div>
+        <VTable
+          :data="users"
+          :filters="filters"
+          v-if="showTable"
+          v-model:currentPage="currentPage"
+          :pageSize="25"
+          @totalPagesChanged="totalPages = $event"
+          class="table is-bordered is-narrow is-hoverable is-striped is-fullwidth"
+        >
+          <template #head>
+            <tr>
+              <th class="has-text-centered">#</th>
+              <v-th sortKey="name">Nome</v-th>
+              <v-th sortKey="email">Email</v-th>
+              <v-th sortKey="active" class="is-hidden-mobile has-text-centered"
+                >Status</v-th
               >
-                {{ row.active ? "ATIVO" : "INATIVO" }}
-              </a>
-            </td>
-            <td class="has-text-centered">
-              <ProfileTag :profile="row.profile" />
-            </td>
-            <td class="has-text-centered">
-              <button
-                :disabled="!row.active"
-                @click="editUser(row)"
-                title="Configurações do usuário"
-                class="button is-small is-responsive is-link"
-              >
-                <font-awesome-icon icon="fa-solid fa-user-gear" />
-              </button>
-            </td>
-          </tr>
-        </template>
-      </VTable>
+              <v-th sortKey="profile" class="has-text-centered">Perfil</v-th>
+              <th class="has-text-centered">Opções</th>
+            </tr>
+          </template>
+          <template #body="{ rows }">
+            <tr
+              v-for="(row, number) in rows"
+              :key="number + 1"
+              class="has-text-centered"
+            >
+              <td>{{ number + 1 }}</td>
+              <td>{{ row.name }}</td>
+              <td>{{ row.email }}</td>
+              <td class="is-hidden-mobile has-text-centered">
+                <a
+                  class="tag"
+                  :class="row.active ? 'is-primary' : 'is-danger'"
+                  @click="toggleActiveUser(row)"
+                >
+                  {{ row.active ? "ATIVO" : "INATIVO" }}
+                </a>
+              </td>
+              <td class="has-text-centered">
+                <ProfileTag :profile="row.profile" />
+              </td>
+              <td class="has-text-centered">
+                <button
+                  :disabled="!row.active"
+                  @click="editUser(row)"
+                  title="Configurações do usuário"
+                  class="button is-small is-responsive is-link"
+                >
+                  <font-awesome-icon icon="fa-solid fa-user-gear" />
+                </button>
+              </td>
+            </tr>
+          </template>
+        </VTable>
+        <VTPagination
+          v-model:currentPage="currentPage"
+          :totalPages="totalPages"
+        />
+      </div>
     </Transition>
   </div>
   <Teleport to="body">
@@ -161,5 +173,10 @@ const toggleActiveUser = (user: User) => {
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
+}
+
+.pagination {
+  justify-content: center;
+  max-width: 40%;
 }
 </style>
