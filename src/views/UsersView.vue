@@ -11,7 +11,7 @@ import MainModal from "@/components/MainModal.vue";
 import FormUser from "@/components/user/FormUser.vue";
 import { User } from "@/models/User";
 import UserService from "@/services/UserService";
-import UsersFiler from "@/views/UsersFilter.vue";
+import UsersFiler from "@/components/user/UsersFilter.vue";
 
 const toast = useToast();
 const store = useUsersStore();
@@ -19,10 +19,7 @@ const service = UserService;
 const filters = ref({
   name: { value: "", keys: ["name"] },
   email: { value: "", keys: ["email"] },
-  profile: {
-    value: null,
-    keys: ["profile"],
-  },
+  profile: { value: "", keys: ["profile"] },
 });
 
 let users = store.listUsers;
@@ -87,72 +84,91 @@ const toggleActiveUser = (user: User) => {
 <template>
   <BackOfficeLoader :loading="loading" />
   <PageTitle title="Lista de Usuários" class="my-4" />
+  <UsersFiler :filters="filters" />
   <div class="table-container">
-    <UsersFiler :filters="filters" />
     <Transition>
-      <div>
-        <VTable
-          :data="users"
-          :filters="filters"
-          v-if="showTable"
-          v-model:currentPage="currentPage"
-          :pageSize="25"
-          @totalPagesChanged="totalPages = $event"
-          class="table is-bordered is-narrow is-hoverable is-striped is-fullwidth"
-        >
-          <template #head>
-            <tr>
-              <th class="has-text-centered">#</th>
-              <v-th sortKey="name">Nome</v-th>
-              <v-th sortKey="email">Email</v-th>
-              <v-th sortKey="active" class="is-hidden-mobile has-text-centered"
-                >Status</v-th
-              >
-              <v-th sortKey="profile" class="has-text-centered">Perfil</v-th>
-              <th class="has-text-centered">Opções</th>
-            </tr>
-          </template>
-          <template #body="{ rows }">
-            <tr
-              v-for="(row, number) in rows"
-              :key="number + 1"
-              class="has-text-centered"
+      <VTable
+        :data="users"
+        :filters="filters"
+        v-if="showTable"
+        v-model:currentPage="currentPage"
+        :pageSize="25"
+        @totalPagesChanged="totalPages = $event"
+        class="table is-bordered is-narrow is-hoverable is-striped is-fullwidth"
+      >
+        <template #head>
+          <tr>
+            <th class="has-text-centered">#</th>
+            <v-th sortKey="name">Nome</v-th>
+            <v-th sortKey="email">Email</v-th>
+            <v-th sortKey="active" class="is-hidden-mobile has-text-centered"
+              >Status</v-th
             >
-              <td>{{ number + 1 }}</td>
-              <td>{{ row.name }}</td>
-              <td>{{ row.email }}</td>
-              <td class="is-hidden-mobile has-text-centered">
-                <a
-                  class="tag"
-                  :class="row.active ? 'is-primary' : 'is-danger'"
-                  @click="toggleActiveUser(row)"
-                >
-                  {{ row.active ? "ATIVO" : "INATIVO" }}
-                </a>
-              </td>
-              <td class="has-text-centered">
-                <ProfileTag :profile="row.profile" />
-              </td>
-              <td class="has-text-centered">
-                <button
-                  :disabled="!row.active"
-                  @click="editUser(row)"
-                  title="Configurações do usuário"
-                  class="button is-small is-responsive is-link"
-                >
-                  <font-awesome-icon icon="fa-solid fa-user-gear" />
-                </button>
-              </td>
-            </tr>
-          </template>
-        </VTable>
-        <VTPagination
-          v-model:currentPage="currentPage"
-          :totalPages="totalPages"
-        />
-      </div>
+            <v-th sortKey="profile" class="has-text-centered">Perfil</v-th>
+            <th class="has-text-centered">Opções</th>
+          </tr>
+        </template>
+        <template #body="{ rows }">
+          <tr v-for="row in rows" :key="row.id" class="has-text-centered">
+            <td>{{ row.id }}</td>
+            <td>{{ row.name }}</td>
+            <td>{{ row.email }}</td>
+            <td class="is-hidden-mobile has-text-centered">
+              <a
+                class="tag"
+                :class="row.active ? 'is-primary' : 'is-danger'"
+                @click="toggleActiveUser(row)"
+              >
+                {{ row.active ? "ATIVO" : "INATIVO" }}
+              </a>
+            </td>
+            <td class="has-text-centered">
+              <ProfileTag :profile="row.profile" />
+            </td>
+            <td class="has-text-centered">
+              <button
+                :disabled="!row.active"
+                @click="editUser(row)"
+                title="Configurações do usuário"
+                class="button is-small is-responsive is-link"
+              >
+                <font-awesome-icon icon="fa-solid fa-user-gear" />
+              </button>
+            </td>
+          </tr>
+        </template>
+      </VTable>
     </Transition>
   </div>
+  <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+    <a
+      class="pagination-previous"
+      v-if="currentPage > 1"
+      @click="currentPage--"
+    >
+      Anterior
+    </a>
+    <a
+      class="pagination-next"
+      v-if="currentPage < totalPages"
+      @click="currentPage++"
+      >Próxima</a
+    >
+    <ul class="pagination-list">
+      <li
+        v-for="page in totalPages"
+        :key="page"
+        :aria-label="currentPage"
+        @click="currentPage = page"
+      >
+        <a
+          class="pagination-link"
+          :class="currentPage === page ? 'is-current' : ''"
+          >{{ page }}
+        </a>
+      </li>
+    </ul>
+  </nav>
   <Teleport to="body">
     <MainModal
       :open="showModal"
@@ -173,10 +189,5 @@ const toggleActiveUser = (user: User) => {
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
-}
-
-.pagination {
-  justify-content: center;
-  max-width: 40%;
 }
 </style>
