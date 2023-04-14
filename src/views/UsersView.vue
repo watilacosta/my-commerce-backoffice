@@ -79,6 +79,16 @@ const toggleActiveUser = (user: User) => {
     }
   });
 };
+
+const previousPage = () => {
+  if (currentPage.value === 1) return;
+  currentPage.value--;
+};
+
+const nextPage = () => {
+  if (currentPage.value === totalPages.value) return;
+  currentPage.value++;
+};
 </script>
 
 <template>
@@ -140,18 +150,22 @@ const toggleActiveUser = (user: User) => {
       </VTable>
     </Transition>
   </div>
-  <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+  <nav
+    class="pagination is-centered mb-4"
+    role="navigation"
+    aria-label="pagination"
+  >
     <a
       class="pagination-previous"
-      v-if="currentPage > 1"
-      @click="currentPage--"
+      :class="currentPage === 1 ? 'is-disabled' : ''"
+      @click="previousPage"
     >
       Anterior
     </a>
     <a
       class="pagination-next"
-      v-if="currentPage < totalPages"
-      @click="currentPage++"
+      :class="currentPage === totalPages ? 'is-disabled' : ''"
+      @click="nextPage"
       >Próxima</a
     >
     <ul class="pagination-list">
