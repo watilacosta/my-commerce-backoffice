@@ -23,6 +23,7 @@ import {
   faUserGear,
   faUser,
   faCheck,
+  faLayerGroup,
 } from "@fortawesome/free-solid-svg-icons"; /* import specific icons */
 
 /* add icons to the library */
@@ -38,7 +39,8 @@ library.add(
   faUserGear,
   faUser,
   faCheck,
-  faEnvelope
+  faEnvelope,
+  faLayerGroup
 );
 
 const app = createApp(App);

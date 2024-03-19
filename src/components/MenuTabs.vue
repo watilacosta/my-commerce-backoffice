@@ -27,7 +27,7 @@ const currentPath = route.currentRoute;
       <li :class="currentPath.path === '/categories' ? 'is-active' : ''">
         <RouterLink to="/categories">
           <span class="icon is-small">
-            <font-awesome-icon icon="fa-solid fa-tags" />
+            <font-awesome-icon icon="fa-solid fa-layer-group" />
           </span>
           <span>Categories</span>
         </RouterLink>

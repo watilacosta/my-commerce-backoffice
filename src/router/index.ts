@@ -11,13 +11,6 @@ import BrandList from "@/components/BrandList.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    // ****************************** NOT FOUND ********************************
-    {
-      path: "/:pathMatch(.*)*",
-      name: "NotFound",
-      component: HomeView,
-      redirect: "/",
-    },
     // ******************************** HOME ***********************************
     {
       path: "/",
@@ -42,15 +35,21 @@ const router = createRouter({
       name: "Products",
       component: ProductList,
     },
+    // ******************************* CATEGORIES *******************************
     {
       path: "/categories",
       name: "Categories",
       component: CategoryList,
     },
+    // ******************************** BRANDS *********************************
     {
       path: "/brands",
       name: "Brands",
       component: BrandList,
+    },
+    {
+      path: "/:catchAll(.*)",
+      redirect: { name: "Home" },
     },
   ],
 });
