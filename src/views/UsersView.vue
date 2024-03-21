@@ -9,7 +9,7 @@ import PageTitle from "@/components/PageTitle.vue";
 import ProfileTag from "@/components/tags/ProfileTag.vue";
 import MainModal from "@/components/MainModal.vue";
 import FormUser from "@/components/user/FormUser.vue";
-import { User } from "@/models/User";
+import type { User } from "@/models/User";
 import UserService from "@/services/UserService";
 import UsersFiler from "@/components/user/UsersFilter.vue";
 
@@ -172,7 +172,7 @@ const nextPage = () => {
       <li
         v-for="page in totalPages"
         :key="page"
-        :aria-label="currentPage"
+        :aria-label="currentPage.toString()"
         @click="currentPage = page"
       >
         <a

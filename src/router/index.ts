@@ -4,7 +4,7 @@ import { useAuthStore } from "@/stores/auth";
 import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView.vue";
 import UserList from "@/views/UsersView.vue";
-import ProductList from "@/components/ProductList.vue";
+import ProductsView from "@/views/ProductsView.vue";
 import CategoryList from "@/components/CategoryList.vue";
 import BrandList from "@/components/BrandList.vue";
 
@@ -33,7 +33,7 @@ const router = createRouter({
     {
       path: "/products",
       name: "Products",
-      component: ProductList,
+      component: ProductsView,
     },
     // ******************************* CATEGORIES *******************************
     {
