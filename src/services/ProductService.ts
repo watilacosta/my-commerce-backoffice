@@ -1,5 +1,5 @@
 import type { Product } from "@/models/Product";
-import axios from "axios";
+import axios from "@/utils/axios";
 
 class ProductService {
   private path = "/admin/products";

@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { User } from "@/models/User";
+import type { User } from "@/models/User";
 import UserService from "@/services/UserService";
 import { useToast } from "vue-toastification";
 
 const service = UserService;
-
 const props = defineProps({
   user: {
     type: Object,

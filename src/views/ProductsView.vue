@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, onUnmounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useToast } from "vue-toastification";
 import axios from "@/utils/axios";
 
@@ -7,25 +7,32 @@ import BackOfficeLoader from "@/components/BackOfficeLoader.vue";
 import PageTitle from "@/components/PageTitle.vue";
 import ServerError from "@/components/ServerError.vue";
 import { useProductsStore } from "@/stores/products";
+import type { Product } from "@/models/Product";
+import MainModal from "@/components/MainModal.vue";
+import FormProduct from "@/components/product/FormProduct.vue";
 
 const toast = useToast();
 const store = useProductsStore();
 
-let products    = store.listProducts;
-let loading     = ref(true);
-let showTable   = ref(false);
+let products = store.listProducts;
+let loading = ref(true);
+let showTable = ref(false);
+let showModal = ref(false);
 let currentPage = ref(1);
-let totalPages  = ref(0);
+let totalPages = ref(0);
+let product = ref({} as Product);
 
 onMounted(async () => {
   const data = await fetchProducts();
 
-  if (data) {
-    loading.value = false;
+  if (data.length > 0) {
     store.setProductsList(data);
     products = store.listProducts;
     showTable.value = true;
+  } else {
+    showTable.value = false;
   }
+  loading.value = false;
 });
 
 const fetchProducts = async () => {
@@ -58,16 +65,26 @@ const nextPage = () => {
     currentPage.value++;
   }
 };
+
+const createProduct = () => {
+  showModal.value = true;
+};
 </script>
 
 <template>
   <BackOfficeLoader :loading="loading" />
-  <PageTitle title="Lista de Produtos" class="my-4" />
+  <div class="is-flex is-justify-content-space-between is-align-items-center my-4">
+    <PageTitle title="Lista de Produtos" />
+    <button class="button is-link is-responsive"
+      @click="createProduct()"
+      title="Cadastrar um novo produto"
+    >Cadastrar</button>
+  </div>
   <h3 class="is-4">Cadastre seus produtos</h3>
 
   <div class="table-container">
     <Transition>
-      <Vtable
+      <VTable
         :data="products"
         v-if="showTable"
         v-model:currentPage="currentPage"
@@ -94,7 +111,7 @@ const nextPage = () => {
             <td>{{ row.category }}</td>
           </tr>
         </template>
-      </Vtable>
+      </VTable>
     </Transition>
   </div>
 
@@ -134,6 +151,16 @@ const nextPage = () => {
     </ul>
   </nav>
   <!-- PAGINATION END -->
+
+  <Teleport to="body">
+    <MainModal
+      :open="showModal"
+      :title="'Cadastro de Produto'"
+      @close="showModal = false"
+    >
+      <FormProduct :product="product" v-on:closeModal="showModal = false" />
+    </MainModal>
+  </Teleport>
 </template>
 
 <style scoped>

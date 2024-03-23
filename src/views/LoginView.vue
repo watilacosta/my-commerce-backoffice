@@ -44,7 +44,8 @@ const login = async (payload: LoginPayload) => {
       }
     })
     .catch((error) => {
-      toast.error(`${error.response.satus} - ${error.response.data.error}`);
+      // console.log(error);
+      toast.error(`${error.response.status} - ${error.response.data.error}`);
     });
 };
 </script>

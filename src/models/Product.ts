@@ -4,7 +4,7 @@ export class Product {
   private _description: string;
   private _price: number;
   private _quantity: number;
-  private _in_stock: boolean;
+  private readonly _in_stock: boolean;
   private _brand_id: number;
   private _category_id: number;
 

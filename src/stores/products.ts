@@ -21,7 +21,7 @@ export const useProductsStore = defineStore("products", {
           quantity,
           in_stock,
           brand_id,
-          category_id
+          category_id,
         } = item;
 
         return new Product(
